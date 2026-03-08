@@ -81,7 +81,7 @@ class SledAnalyzerApp(QMainWindow):
         control_group.setLayout(control_layout)
         
         # File Selection
-        self.btn_actual = QPushButton("Actual Data Yükle (velocity.xlsx / acceleration)")
+        self.btn_actual = QPushButton("Actual Data Yükle")
         self.btn_actual.clicked.connect(self.load_actual)
         self.lbl_actual = QLabel("Seçilmedi")
         control_layout.addWidget(self.btn_actual)
@@ -89,7 +89,7 @@ class SledAnalyzerApp(QMainWindow):
         
         control_layout.addSpacing(10)
         
-        self.btn_target = QPushButton("Target Data Yükle (target.xlsx)")
+        self.btn_target = QPushButton("Target Data Yükle")
         self.btn_target.clicked.connect(self.load_target)
         self.lbl_target = QLabel("Seçilmedi")
         control_layout.addWidget(self.btn_target)
@@ -219,6 +219,10 @@ class SledAnalyzerApp(QMainWindow):
         self.txt_export = QLineEdit(r"c:\Users\pc1\Desktop\adient_data\velocity_acc_target_spul")
         export_layout.addWidget(self.txt_export)
         
+        self.btn_browse = QPushButton("Gözat...")
+        self.btn_browse.clicked.connect(self.browse_export_dir)
+        export_layout.addWidget(self.btn_browse)
+        
         self.btn_export = QPushButton("Tüm Grafikleri Kaydet (.png)")
         self.btn_export.clicked.connect(self.export_plots)
 
@@ -231,9 +235,20 @@ class SledAnalyzerApp(QMainWindow):
         
         main_layout.addLayout(export_layout)
         
+        # --- Author Info ---
+        lbl_author = QLabel("Created by Efe Nakcı")
+        lbl_author.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        lbl_author.setStyleSheet("color: gray; font-style: italic; font-size: 11px; padding-top: 5px;")
+        main_layout.addWidget(lbl_author)
+
     def apply_universal_offset(self, val):
         for spin in self.spin_offsets:
             spin.setValue(val)
+
+    def browse_export_dir(self):
+        directory = QFileDialog.getExistingDirectory(self, "Kayıt Klasörü Seç", self.txt_export.text())
+        if directory:
+            self.txt_export.setText(directory)
 
     def set_local_offset(self, idx, val):
         self.local_offsets[idx] = val
