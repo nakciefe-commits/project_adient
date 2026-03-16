@@ -1,6 +1,38 @@
 import sys
 import os
 import shutil
+import subprocess
+import importlib
+
+
+def _ensure_dependencies():
+    required_packages = {
+        "PyQt5": "PyQt5",
+        "pandas": "pandas",
+        "numpy": "numpy",
+        "matplotlib": "matplotlib",
+        "docxtpl": "docxtpl",
+        "openpyxl": "openpyxl",
+        "docx": "python-docx",
+        "xlrd": "xlrd"
+    }
+
+    for module_name, pip_name in required_packages.items():
+        try:
+            importlib.import_module(module_name)
+        except ImportError:
+            print(f"Eksik paket bulundu: {pip_name}. Kurulum başlatılıyor...")
+            try:
+                subprocess.check_call([sys.executable, "-m", "pip", "install", pip_name])
+            except Exception as exc:
+                print(f"{pip_name} kurulamadı: {exc}")
+                print("Lütfen şu komutu çalıştırın:")
+                print(f"  {sys.executable} -m pip install {pip_name}")
+                raise
+
+
+_ensure_dependencies()
+
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QLabel, QMessageBox, QDialog, QFormLayout, QLineEdit, QDialogButtonBox, QComboBox, QScrollArea, QFrame
 from PyQt5.QtCore import Qt
 
