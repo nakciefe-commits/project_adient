@@ -3,7 +3,7 @@ import re
 import tempfile
 from datetime import datetime
 
-from PyQt5.QtWidgets import (
+from PyQt6.QtWidgets import (
     QApplication,
     QMainWindow,
     QWidget,
@@ -18,7 +18,7 @@ from PyQt5.QtWidgets import (
     QGroupBox,
     QProgressBar,
 )
-from PyQt5.QtCore import Qt
+from PyQt6.QtCore import Qt
 
 from docxtpl import DocxTemplate, InlineImage
 from docx import Document as DocxDocument
@@ -237,7 +237,7 @@ class EvaApp(QMainWindow):
         main_layout = QVBoxLayout(main_widget)
 
         title = QLabel("EVA Modulu")
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size: 20px; font-weight: bold; margin-bottom: 10px;")
         main_layout.addWidget(title)
 
@@ -247,7 +247,7 @@ class EvaApp(QMainWindow):
             "SEBE->Belt | HEAD->Head | CHST->Chest | PELV->Pelvis\n"
             "_R_->Resultant | ACXP->X | ACYP->Y | ACZP->Z"
         )
-        subtitle.setAlignment(Qt.AlignCenter)
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         subtitle.setWordWrap(True)
         subtitle.setStyleSheet("color: #616161; margin-bottom: 8px;")
         main_layout.addWidget(subtitle)
@@ -330,7 +330,7 @@ class EvaApp(QMainWindow):
         self.list_widget.clear()
         if not self.selected_files:
             self.list_widget.addItem(QListWidgetItem("Henuz dosya secilmedi"))
-            self.list_widget.item(0).setFlags(Qt.NoItemFlags)
+            self.list_widget.item(0).setFlags(Qt.ItemFlag.NoItemFlags)
             self.lbl_preview.setText("Henuz dosya secilmedi.")
             return
 

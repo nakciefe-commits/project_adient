@@ -3,7 +3,7 @@ import os
 import subprocess
 
 def _check_and_install_dependencies():
-    required_packages = ['pandas', 'numpy', 'PyQt5', 'matplotlib', 'docxtpl', 'openpyxl', 'xlrd']
+    required_packages = ['pandas', 'numpy', 'PyQt6', 'matplotlib', 'docxtpl', 'openpyxl', 'xlrd']
     for pkg in required_packages:
         try:
             __import__(pkg)
@@ -19,27 +19,22 @@ _check_and_install_dependencies()
 
 import pandas as pd
 import numpy as np
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                             QHBoxLayout, QPushButton, QLabel, QFileDialog, 
+from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
+                             QHBoxLayout, QPushButton, QLabel, QFileDialog,
                              QMessageBox, QDoubleSpinBox, QGroupBox, QLineEdit,
                              QCheckBox, QGridLayout, QTableWidget, QTableWidgetItem, QHeaderView, QAbstractItemView,
                              QDialog, QFormLayout, QDialogButtonBox)
-from PyQt5.QtCore import Qt
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QBrush, QColor
 
 import matplotlib
-matplotlib.use('Qt5Agg')
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+matplotlib.use('QtAgg')
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 from docxtpl import DocxTemplate, InlineImage
 from docx.shared import Mm
 import shared.global_data as global_data
-from PyQt5.QtCore import Qt
-
-import matplotlib
-matplotlib.use('Qt5Agg')
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
 
 class SledAnalyzerApp(QMainWindow):
     def __init__(self, main_window=None):
@@ -105,15 +100,15 @@ class SledAnalyzerApp(QMainWindow):
         self.table_offset.setHorizontalHeaderLabels(["Değişken / Grafik", "Mevcut Değer", "Kullanım Yeri"])
         self.table_offset.setRowCount(3)
         self.table_offset.verticalHeader().setVisible(False)
-        self.table_offset.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
-        self.table_offset.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        self.table_offset.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
+        self.table_offset.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
+        self.table_offset.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)
+        self.table_offset.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
         # Tabloyu dikey olarak sıkıştır
-        self.table_offset.verticalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
-        self.table_offset.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.table_offset.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        self.table_offset.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.table_offset.setMaximumHeight(150) # 3 satırın tam sığacağı ideal yükseklik
         
-        self.table_offset.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.table_offset.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.table_offset.setStyleSheet("QTableWidget { background-color: white; gridline-color: #d3d3d3; } "
                                         "QHeaderView::section { background-color: #f0f0f0; font-weight: bold; }")
         
@@ -125,7 +120,7 @@ class SledAnalyzerApp(QMainWindow):
         for i in range(3):
             # Column 0: Variable
             item_var = QTableWidgetItem(labels[i])
-            item_var.setFlags(item_var.flags() ^ Qt.ItemIsEditable)
+            item_var.setFlags(item_var.flags() & ~Qt.ItemFlag.ItemIsEditable)
             self.table_offset.setItem(i, 0, item_var)
             
             # Column 1: Current Value (SpinBox inside table)
@@ -141,8 +136,8 @@ class SledAnalyzerApp(QMainWindow):
             
             # Column 2: Used By (Blue Text)
             item_used = QTableWidgetItem(used_by[i])
-            item_used.setFlags(item_used.flags() ^ Qt.ItemIsEditable)
-            item_used.setForeground(Qt.blue)
+            item_used.setFlags(item_used.flags() & ~Qt.ItemFlag.ItemIsEditable)
+            item_used.setForeground(QBrush(QColor('blue')))
             self.table_offset.setItem(i, 2, item_used)
             
         offset_layout.addWidget(self.table_offset)
@@ -175,7 +170,7 @@ class SledAnalyzerApp(QMainWindow):
         self.btn_prev.clicked.connect(self.prev_graph)
         
         self.lbl_graph_name = QLabel(f"{self.graphs[self.current_graph_idx]}")
-        self.lbl_graph_name.setAlignment(Qt.AlignCenter)
+        self.lbl_graph_name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.lbl_graph_name.setStyleSheet("font-size: 16px; font-weight: bold;")
         
         self.btn_next = QPushButton("➡")
@@ -237,7 +232,7 @@ class SledAnalyzerApp(QMainWindow):
 
         # --- Author Info ---
         lbl_author = QLabel("Created by Efe Nakcı")
-        lbl_author.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        lbl_author.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         lbl_author.setStyleSheet("color: gray; font-style: italic; font-size: 11px; padding-top: 5px;")
         main_layout.addWidget(lbl_author)
 
@@ -251,7 +246,7 @@ class SledAnalyzerApp(QMainWindow):
             spin.setValue(val)
 
     def apply_14ms_offset(self, state):
-        if state == Qt.Checked:
+        if state == Qt.CheckState.Checked.value:
             # Set all to 14.0 and disable manual edit
             for spin in self.spin_offsets:
                 spin.setValue(14.0)
@@ -668,7 +663,7 @@ class SledAnalyzerApp(QMainWindow):
             QMessageBox.critical(self, "Hata", f"Rapor oluşturulurken hata oluştu:\n{str(e)}")
 
 if __name__ == "__main__":
-    app = QApplication(sys.callbacks) if hasattr(sys, 'callbacks') else QApplication(sys.argv)
+    app = QApplication(sys.argv)
     window = SledAnalyzerApp()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

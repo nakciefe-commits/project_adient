@@ -3,7 +3,7 @@ import io
 import tempfile
 from datetime import datetime
 
-from PyQt5.QtWidgets import (
+from PyQt6.QtWidgets import (
     QApplication,
     QMainWindow,
     QWidget,
@@ -17,8 +17,9 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QGroupBox,
     QProgressBar,
+    QAbstractItemView,
 )
-from PyQt5.QtCore import Qt
+from PyQt6.QtCore import Qt
 
 from docx import Document
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
@@ -136,12 +137,12 @@ class PhotoReportApp(QMainWindow):
         main_layout = QVBoxLayout(main_widget)
 
         title = QLabel("Photo Report Modülü")
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setStyleSheet("font-size: 20px; font-weight: bold; margin-bottom: 10px;")
         main_layout.addWidget(title)
 
         subtitle = QLabel("Her kategori için çoklu fotoğraf seçebilir ve ayrı Word raporu oluşturabilirsiniz.")
-        subtitle.setAlignment(Qt.AlignCenter)
+        subtitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
         subtitle.setStyleSheet("color: #616161; margin-bottom: 8px;")
         main_layout.addWidget(subtitle)
 
@@ -204,7 +205,7 @@ class PhotoReportApp(QMainWindow):
         layout.addLayout(button_row)
 
         list_widget = QListWidget()
-        list_widget.setSelectionMode(QListWidget.ExtendedSelection)
+        list_widget.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         list_widget.setMinimumHeight(80)
         layout.addWidget(list_widget)
 
@@ -263,7 +264,7 @@ class PhotoReportApp(QMainWindow):
         files = self.selected_files[category]
         if not files:
             list_widget.addItem(QListWidgetItem("Henüz fotoğraf seçilmedi"))
-            list_widget.item(0).setFlags(Qt.NoItemFlags)
+            list_widget.item(0).setFlags(Qt.ItemFlag.NoItemFlags)
             return
 
         for i, photo in enumerate(files):

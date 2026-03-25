@@ -7,7 +7,7 @@ import importlib
 
 def _ensure_dependencies():
     required_packages = {
-        "PyQt5": "PyQt5",
+        "PyQt6": "PyQt6",
         "pandas": "pandas",
         "numpy": "numpy",
         "matplotlib": "matplotlib",
@@ -35,14 +35,14 @@ def _ensure_dependencies():
 
 _ensure_dependencies()
 
-from PyQt5.QtWidgets import (
+from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QLabel, QMessageBox, QDialog, QFormLayout, QLineEdit,
     QDialogButtonBox, QComboBox, QScrollArea, QFrame, QGroupBox,
     QFileDialog, QSizePolicy,
 )
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QFont
 
 from spul.spul_app import SledAnalyzerApp
 import shared.global_data as global_data
@@ -143,7 +143,7 @@ class ReportDialog(QDialog):
 
         # Başlık
         header = QLabel("Rapor Genel Bilgileri")
-        header.setAlignment(Qt.AlignCenter)
+        header.setAlignment(Qt.AlignmentFlag.AlignCenter)
         header.setStyleSheet("font-size: 18px; font-weight: bold; color: #0D47A1; margin: 4px 0 8px 0;")
         root.addWidget(header)
 
@@ -158,7 +158,7 @@ class ReportDialog(QDialog):
         # ---- Test Bilgileri grubu ----
         grp_test = QGroupBox("Test Bilgileri")
         form_test = QFormLayout()
-        form_test.setLabelAlignment(Qt.AlignRight)
+        form_test.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         form_test.setHorizontalSpacing(16)
         form_test.setVerticalSpacing(8)
 
@@ -186,7 +186,7 @@ class ReportDialog(QDialog):
         # ---- Müşteri / Proje grubu ----
         grp_project = QGroupBox("Müşteri ve Proje")
         form_project = QFormLayout()
-        form_project.setLabelAlignment(Qt.AlignRight)
+        form_project.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         form_project.setHorizontalSpacing(16)
         form_project.setVerticalSpacing(8)
 
@@ -210,7 +210,7 @@ class ReportDialog(QDialog):
         # ---- EVA / Dummy grubu ----
         grp_eva = QGroupBox("EVA Bilgileri")
         form_eva = QFormLayout()
-        form_eva.setLabelAlignment(Qt.AlignRight)
+        form_eva.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         form_eva.setHorizontalSpacing(16)
         form_eva.setVerticalSpacing(8)
 
@@ -248,7 +248,7 @@ class ReportDialog(QDialog):
 
         self.seat_frame = QFrame()
         self.seat_form = QFormLayout(self.seat_frame)
-        self.seat_form.setLabelAlignment(Qt.AlignRight)
+        self.seat_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.seat_form.setHorizontalSpacing(16)
         self.seat_form.setVerticalSpacing(8)
         seats_layout.addWidget(self.seat_frame)
@@ -354,13 +354,13 @@ class MainApp(QMainWindow):
 
         # Başlık
         lbl_title = QLabel("Adient Sled Test Merkezi")
-        lbl_title.setAlignment(Qt.AlignCenter)
+        lbl_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         lbl_title.setStyleSheet("font-size: 22px; font-weight: bold; color: #0D47A1; margin-bottom: 12px;")
         layout.addWidget(lbl_title)
 
         # Durum etiketi (yüklü config bilgisi)
         self.lbl_status = QLabel()
-        self.lbl_status.setAlignment(Qt.AlignCenter)
+        self.lbl_status.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.lbl_status.setStyleSheet("font-size: 12px; color: #757575; margin-bottom: 4px;")
         layout.addWidget(self.lbl_status)
 
@@ -411,9 +411,9 @@ class MainApp(QMainWindow):
         reply = QMessageBox.question(
             self, "Taslakları Sil",
             "Tempfiles klasöründe kayıtlı taslaklar var, silinsin mi?\n(Genel bilgiler dahil her şey silinir)",
-            QMessageBox.Yes | QMessageBox.No, QMessageBox.No,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No,
         )
-        if reply == QMessageBox.Yes:
+        if reply == QMessageBox.StandardButton.Yes:
             for name in entries:
                 path = os.path.join(tempfiles_dir, name)
                 try:
@@ -441,7 +441,7 @@ class MainApp(QMainWindow):
 
     def open_global_info(self):
         dialog = ReportDialog(self)
-        if dialog.exec_() == QDialog.Accepted:
+        if dialog.exec() == QDialog.DialogCode.Accepted:
             data = dialog.get_data()
             for key, val in data.items():
                 global_data.config[key] = val
@@ -537,9 +537,9 @@ class MainApp(QMainWindow):
             self, "Fotoğraflar Bulundu",
             f"Klasör: {folder_name}\n\n{summary}\n\n"
             f"Raporlar oluşturulsun mu?",
-            QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes,
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.Yes,
         )
-        if reply != QMessageBox.Yes:
+        if reply != QMessageBox.StandardButton.Yes:
             return
 
         # Çıktı klasörü: tempfiles/<folder_name>-Photos
@@ -608,4 +608,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainApp()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

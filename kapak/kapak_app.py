@@ -1,5 +1,5 @@
 import os
-from PyQt5.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox
 from docxtpl import DocxTemplate
 import shared.global_data as global_data
 
