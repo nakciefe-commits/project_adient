@@ -214,18 +214,25 @@ class ReportDialog(QDialog):
         form_eva.setHorizontalSpacing(16)
         form_eva.setVerticalSpacing(8)
 
-        eva_fields = [
-            ("DUMMY_PCT",  "Dummy %"),
-            ("SENSOR",   "Sensor"),
-        ]
-        for key, label in eva_fields:
-            le = QLineEdit()
-            le.setMinimumWidth(280)
-            val = global_data.config.get(key)
-            if val:
-                le.setPlaceholderText(str(val))
-            self.inputs[key] = le
-            form_eva.addRow(f"{label}:", le)
+        # DUMMY_PCT dropdown
+        self.cb_dummy_pct = QComboBox()
+        self.cb_dummy_pct.addItems(["5", "50", "95", "100"])
+        self.cb_dummy_pct.setMinimumWidth(280)
+        saved_dummy = global_data.config.get("DUMMY_PCT")
+        if saved_dummy and str(saved_dummy) in ["5", "50", "95", "100"]:
+            self.cb_dummy_pct.setCurrentText(str(saved_dummy))
+        form_eva.addRow("Dummy %:", self.cb_dummy_pct)
+
+        # SENSOR dropdown
+        self.cb_sensor = QComboBox()
+        self.cb_sensor.addItems(["Instrumented", "Ballast"])
+        self.cb_sensor.setMinimumWidth(280)
+        saved_sensor = global_data.config.get("SENSOR")
+        if saved_sensor == "Instr." or saved_sensor == "Instrumented":
+            self.cb_sensor.setCurrentText("Instrumented")
+        elif saved_sensor == "Ballast":
+            self.cb_sensor.setCurrentText("Ballast")
+        form_eva.addRow("Sensor:", self.cb_sensor)
 
         grp_eva.setLayout(form_eva)
         content_layout.addWidget(grp_eva)
@@ -322,6 +329,9 @@ class ReportDialog(QDialog):
 
     def get_data(self):
         data = {field: self._field_value(le) for field, le in self.inputs.items()}
+        data["DUMMY_PCT"] = self.cb_dummy_pct.currentText()
+        sensor_val = self.cb_sensor.currentText()
+        data["SENSOR"] = "Instr." if sensor_val == "Instrumented" else sensor_val
         data["SEAT_COUNT"] = int(self.cb_seat_count.currentText())
 
         smp_ids = ["" for _ in range(5)]

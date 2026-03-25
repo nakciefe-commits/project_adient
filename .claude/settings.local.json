@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \":*)",
+      "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/taslak - Kopya.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_taslak/\")",
+      "Bash(pip install:*)",
+      "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/2026-095/REPORT FILES/1-DATASHEETS/261337953_Frontal impact rigid wall 100Wkph 50pc HIII dummy all markets_RQS-75120199018.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_rqs/\")",
+      "Bash(pandoc 'C:/Users/pc1/Desktop/taslak - Kopya.docx' -t plain --wrap=none)",
+      "Bash(pandoc 'C:/Users/pc1/Desktop/2026-095/REPORT FILES/1-DATASHEETS/261337953_Frontal impact rigid wall 100Wkph 50pc HIII dummy all markets_RQS-75120199018.docx' -t plain --wrap=none)",
+      "Bash(SKILL_DIR=\"C:/Users/pc1/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/c6720d23-eefc-4984-b7e7-7ed9913444fb/e5d73bcb-6ad8-429f-9f36-251a06d9843c/skills/docx\")",
+      "Read(//c/Users/pc1/Desktop/project_adient/**)",
+      "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/project_adient/taslak1.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_t1/\")",
+      "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/project_adient/taslak2.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_t2/\")",
+      "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/project_adient/taslak3.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_t3/\")"
+    ]
+  }
+}
