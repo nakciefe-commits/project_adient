@@ -333,7 +333,25 @@ class SledAnalyzerApp(QMainWindow):
         df_plot = df.copy()
         offset_sec = offset_ms / 1000.0
         df_plot['Offset_Time'] = df_plot['Time'] - offset_sec
-        return df_plot[df_plot['Offset_Time'] >= 0]
+        df_plot = df_plot[df_plot['Offset_Time'] >= 0].copy()
+
+        # Offset sonrası Spul'u yeni t ile yeniden hesapla
+        if 'Spul' in df_plot.columns:
+            if 'Velocity' in df_plot.columns:
+                vel_col = 'Velocity'
+            elif 'Target Velocity' in df_plot.columns:
+                vel_col = 'Target Velocity'
+            else:
+                vel_col = None
+            if vel_col is not None:
+                MIN_T = 0.001  # 1 ms eşiği — daha küçük t'de Spul anlamsız/sonsuz olur
+                df_plot['Spul'] = np.where(
+                    (df_plot['Offset_Time'] >= MIN_T) & (df_plot['Offset_Time'].notna()),
+                    (df_plot[vel_col] ** 2) / df_plot['Offset_Time'],
+                    0
+                )
+
+        return df_plot
 
     def _cleanup_axes(self):
         self.ax.clear()
@@ -595,9 +613,9 @@ class SledAnalyzerApp(QMainWindow):
             QMessageBox.warning(self, "Hata", "İşlenecek veri yok!")
             return
 
-        template_path = os.path.join(save_dir, "Template.docx")
+        template_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Template.docx")
         if not os.path.exists(template_path):
-            QMessageBox.warning(self, "Hata", f"Template.docx dosyası bulunamadı, aynı dizinde olmalı:\n{template_path}")
+            QMessageBox.warning(self, "Hata", f"Template.docx dosyası bulunamadı:\n{template_path}")
             return
 
         test_no_input = global_data.config.get("TEST_NO", "Belirtilmedi")

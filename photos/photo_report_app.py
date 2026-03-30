@@ -36,7 +36,7 @@ import shared.global_data as global_data
 # Template'teki satir yüksekligi (twips cinsinden)
 ROW_HEIGHT_TWIPS = 3768
 CELL_WIDTH_MM = 86
-PHOTO_WIDTH_MM = 80
+PHOTO_WIDTH_MM = 86
 # Sikistirma ayarlari
 COMPRESS_MAX_WIDTH = 1200
 COMPRESS_QUALITY = 75

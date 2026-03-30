@@ -11,7 +11,20 @@
       "Read(//c/Users/pc1/Desktop/project_adient/**)",
       "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/project_adient/taslak1.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_t1/\")",
       "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/project_adient/taslak2.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_t2/\")",
-      "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/project_adient/taslak3.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_t3/\")"
+      "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/project_adient/taslak3.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_t3/\")",
+      "Bash(python scripts/office/unpack.py \"C:/Users/pc1/Desktop/project_adient/Template.docx\" \"C:/Users/pc1/Desktop/project_adient/unpacked_template/\")",
+      "Read(//c/Users/pc1/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/c6720d23-eefc-4984-b7e7-7ed9913444fb/e5d73bcb-6ad8-429f-9f36-251a06d9843c/skills/docx/**)",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\taslak1.docx\" \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\unpacked_taslak1\")",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\taslak2.docx\" \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\unpacked_taslak2\")",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\taslak3.docx\" \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\unpacked_taslak3\")",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\taslak4.docx\" \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\unpacked_taslak4\")",
+      "Bash(pandoc --track-changes=all \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\taslak1.docx\" -o -)",
+      "Bash(pandoc --track-changes=all \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\taslak2.docx\" -o -)",
+      "Bash(pandoc --track-changes=all \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\taslak3.docx\" -o -)",
+      "Bash(pandoc --track-changes=all \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\taslak4.docx\" -o -)",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\spul\\\\Template.docx\" \"C:\\\\Users\\\\pc1\\\\Desktop\\\\project_adient\\\\unpacked_spul_template\")",
+      "Bash(pip show:*)",
+      "Bash(python merge_templates.py)"
     ]
   }
 }

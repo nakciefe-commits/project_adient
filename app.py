@@ -49,6 +49,7 @@ import shared.global_data as global_data
 import kapak.kapak_app as kapak_app
 from photos.photo_report_app import PhotoReportApp
 from eva.eva_app import EvaApp
+from report.report_app import ReportApp
 
 
 # ---------------------------------------------------------------------------
@@ -381,6 +382,7 @@ class MainApp(QMainWindow):
             ("Photo Report Modülünü Aç",    "#673AB7", self.open_photo_report_app),
             ("Spul Uygulamasını Aç",        "#4CAF50", self.open_spul_app),
             ("EVA Modülünü Aç",             "#E91E63", self.open_eva_app),
+            ("Report Generator",            "#00897B", self.open_report_app),
         ]
 
         for text, color, handler in buttons:
@@ -485,6 +487,11 @@ class MainApp(QMainWindow):
         self.hide()
         self.eva_window = EvaApp(main_window=self)
         self.eva_window.show()
+
+    def open_report_app(self):
+        self.hide()
+        self.report_window = ReportApp(main_window=self)
+        self.report_window.show()
 
     # ------------------------------------------------------------------
     #  Test Klasörünü Seç
